@@ -14,6 +14,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.SavedStateViewModelFactory
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.voll.databinding.ActivityMainBinding
 import java.util.UUID
 import java.util.concurrent.RecursiveAction
 import kotlin.properties.Delegates
@@ -94,12 +95,16 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        val binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         text = findViewById(R.id.textView)
         updateText()
         val recy = findViewById<RecyclerView>(R.id.recy)
 
         ourList.addAll((1..30).map{UUID.randomUUID().toString()})
+
+        
+        binding.bind2.setText("200")
 
         recy.layoutManager = LinearLayoutManager(this)
         recy.adapter = OurRecyclerAdapter(this, ourList)
