@@ -1,6 +1,7 @@
 package com.example.voll
 
 import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -9,6 +10,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import androidx.activity.result.contract.ActivityResultContract
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.SavedStateViewModelFactory
@@ -46,6 +49,7 @@ class OurRecyclerAdapter(val context: Context, val elements: MutableList<String>
 
     fun update(new: String){
         notifyDataSetChanged()
+
     }
 
     override fun getItemCount(): Int {
@@ -80,6 +84,8 @@ class MainActivity : AppCompatActivity() {
     }
 
 
+
+
     val vollViewModel : VollViewModel by viewModels()
 //    {
 //        VollViewModelFactory(SavedStateHandle())
@@ -91,7 +97,10 @@ class MainActivity : AppCompatActivity() {
         text.setText(vollViewModel.strList[vollViewModel.index])
     }
 
-
+    val launcher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
+        result -> Log.d("HEHEHE", "")
+//        result.resultCode ==
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -103,8 +112,16 @@ class MainActivity : AppCompatActivity() {
 
         ourList.addAll((1..30).map{UUID.randomUUID().toString()})
 
-        
+
+
         binding.bind2.setText("200")
+
+        binding.newActivity.setOnClickListener {
+            val intent = Intent(this, ShowHintActivity::class.java)
+            intent.putExtra("HELO", "helo")
+//            startActivity(intent)
+            launcher.launch(intent)
+        }
 
         recy.layoutManager = LinearLayoutManager(this)
         recy.adapter = OurRecyclerAdapter(this, ourList)
