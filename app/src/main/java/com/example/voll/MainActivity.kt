@@ -70,7 +70,7 @@ class MainActivity : AppCompatActivity() {
 
         // lazy, observable
 
-    val ourList = mutableListOf<String>()
+//    val ourList = mutableListOf<String>()
 
 
     var pablo: String by Delegate()
@@ -104,45 +104,53 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        text = findViewById(R.id.textView)
-        updateText()
-        val recy = findViewById<RecyclerView>(R.id.recy)
 
-        ourList.addAll((1..30).map{UUID.randomUUID().toString()})
-
-
-
-        binding.bind2.setText("200")
-
-        binding.newActivity.setOnClickListener {
-            val intent = Intent(this, ShowHintActivity::class.java)
-            intent.putExtra("HELO", "helo")
-//            startActivity(intent)
-            launcher.launch(intent)
+        supportFragmentManager.beginTransaction().apply {
+            replace (R.id.fragmentContainerView, RecyclerViewFragment())
+            commit()
         }
 
-        recy.layoutManager = LinearLayoutManager(this)
-        recy.adapter = OurRecyclerAdapter(this, ourList)
 
 
-        pablo = "300"
-        Log.d("HEHEHE", "${pablo}")
-
-        val buttonPrev: Button = findViewById(R.id.button)
-        buttonPrev.setOnClickListener {
-            vollViewModel.index = vollViewModel.index  - 1
-            updateText()
-
-        }
-
-        val buttonNext: Button = findViewById(R.id.button2)
-        buttonNext.setOnClickListener {
-            Log.d("HEHEHE", "ppp is ${ppp}")
-            ooo = "${vollViewModel.index} + a"
-            vollViewModel.index = vollViewModel.index  + 1
-            updateText()
-        }
+//        text = findViewById(R.id.textView)
+//        updateText()
+//
+//
+////        ourList.addAll((1..30).map{UUID.randomUUID().toString()})
+//
+//
+//
+//        binding.bind2.setText("200")
+//
+//        binding.newActivity.setOnClickListener {
+//            val intent = Intent(this, ShowHintActivity::class.java)
+//            intent.putExtra("HELO", "helo")
+////            startActivity(intent)
+//            launcher.launch(intent)
+//        }
+//
+//
+//
+//
+//        pablo = "300"
+//        Log.d("HEHEHE", "${pablo}")
+//
+//        val buttonPrev: Button = findViewById(R.id.button)
+//        buttonPrev.setOnClickListener {
+//            vollViewModel.index = vollViewModel.index  - 1
+//            updateText()
+//
+//        }
+//
+//        val buttonNext: Button = findViewById(R.id.button2)
+//        buttonNext.setOnClickListener {
+//            Log.d("HEHEHE", "ppp is ${ppp}")
+//            ooo = "${vollViewModel.index} + a"
+//            vollViewModel.index = vollViewModel.index  + 1
+//            updateText()
+//        }
     }
 }
