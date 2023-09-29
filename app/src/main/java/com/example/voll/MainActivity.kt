@@ -18,8 +18,15 @@ import androidx.lifecycle.SavedStateViewModelFactory
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.voll.databinding.ActivityMainBinding
+import kotlinx.coroutines.CoroutineName
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 import java.util.UUID
 import java.util.concurrent.RecursiveAction
+import kotlin.coroutines.CoroutineContext
 import kotlin.properties.Delegates
 import kotlin.reflect.KProperty
 
@@ -107,6 +114,7 @@ class MainActivity : AppCompatActivity() {
 
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        
 
         supportFragmentManager.beginTransaction().apply {
             replace (R.id.fragmentContainerView, RecyclerViewFragment())
