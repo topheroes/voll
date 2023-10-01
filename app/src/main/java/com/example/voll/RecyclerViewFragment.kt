@@ -22,7 +22,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import kotlin.coroutines.CoroutineContext
-import kotlinx.atomicfu.*
+//import kotlinx.atomicfu.*
 
 class RecyclerViewFragment : Fragment() {
 
@@ -72,7 +72,7 @@ class RecyclerViewFragment : Fragment() {
         // GSON?
         // race condition
 
-        var counter = atomic(0)
+        var counter = 0
 
         GlobalScope.launch {
 

@@ -2,6 +2,7 @@ package com.example.voll
 
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -13,6 +14,7 @@ import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContract
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.SavedStateViewModelFactory
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -109,6 +111,7 @@ class MainActivity : AppCompatActivity() {
 //        result.resultCode ==
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -121,6 +124,15 @@ class MainActivity : AppCompatActivity() {
             commit()
         }
 
+        binding.backButton.setOnClickListener {
+
+                val intent = Intent(this, BackgroundService::class.java)
+                startForegroundService(intent)
+
+//                stopService()
+
+//                startForegroundService()
+        }
 
 
 //        text = findViewById(R.id.textView)
