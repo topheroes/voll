@@ -1,11 +1,15 @@
 package com.example.voll
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.provider.Telephony
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -42,6 +46,44 @@ class RecyclerViewFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val SMSpermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()){ isAllowed ->
+            if(isAllowed){
+//                Uri.parse("content://sms/inbox")
+//                Log.d("HEHEHE", "OUR URI IS ${Telephony.Sms.Inbox.CONTENT_URI}")
+                val mcursor = requireContext().contentResolver.query(
+                   Telephony.Sms.Inbox.CONTENT_URI,
+                    null,
+                    null,
+                    null,
+                    null
+                )
+//                mcursor?.also{ cursor ->
+//
+//                    if(cursor.moveToFirst()){
+//                        do{
+//                            forLoop@for( index in 0..cursor.columnCount){
+//                                if(cursor.getColumnName(index) == Telephony.Sms.Inbox.DATE){
+//                                    Log.d("HEHEHE", "the type is ${cursor.getString(index)}")
+//                                    break@forLoop
+//                                }
+//
+//                            }
+//                        }while(cursor.moveToNext())
+//                    }
+//
+//                }
+
+            }
+            else{
+
+            }
+
+        }
+
+        SMSpermissionLauncher.launch(android.Manifest.permission.READ_SMS)
+
+
 
 //        findNavController().navigate
 
