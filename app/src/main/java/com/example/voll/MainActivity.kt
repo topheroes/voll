@@ -1,7 +1,12 @@
 package com.example.voll
 
+import android.app.DownloadManager
+import android.app.DownloadManager.ACTION_DOWNLOAD_COMPLETE
+import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
+import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -19,6 +24,9 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.SavedStateViewModelFactory
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkManager
 import com.example.voll.databinding.ActivityMainBinding
 import kotlinx.coroutines.CoroutineName
 import kotlinx.coroutines.Dispatchers
@@ -28,6 +36,7 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import java.util.UUID
 import java.util.concurrent.RecursiveAction
+import java.util.concurrent.TimeUnit
 import kotlin.coroutines.CoroutineContext
 import kotlin.properties.Delegates
 import kotlin.reflect.KProperty
@@ -123,6 +132,32 @@ class MainActivity : AppCompatActivity() {
             replace (R.id.fragmentContainerView, RecyclerViewFragment())
             commit()
         }
+
+
+        binding.workButton.setOnClickListener {
+
+
+            val request = DownloadManager.Request(Uri.parse("https://ya.ru"))
+
+            val downloadManager = getSystemService(DOWNLOAD_SERVICE) as DownloadManager
+            downloadManager.enqueue(request)
+
+            val broadcastReceiver = object: BroadcastReceiver(){
+                override fun onReceive(p0: Context?, p1: Intent?) {
+                    Log.d("HEHEHE", "received")
+                }
+            }
+
+            registerReceiver(broadcastReceiver, IntentFilter( ACTION_DOWNLOAD_COMPLETE))
+
+
+            val workRequest = OneTimeWorkRequestBuilder<MyWorker>().build()
+            val workRequest2 = PeriodicWorkRequestBuilder<MyWorker>(1, TimeUnit.SECONDS).build()
+
+            WorkManager.getInstance(this@MainActivity).enqueue(workRequest2)
+
+        }
+
 
         binding.backButton.setOnClickListener {
 
